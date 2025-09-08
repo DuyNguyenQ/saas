@@ -40,13 +40,21 @@ COPY requirements.txt /tmp/requirements.txt
 # copy the project code into the container's working directory
 COPY ./src /code
 
+ARG SECRET_KEY
+ENV SECRET_KEY=${SECRET_KEY}
+ARG DATABASE_URL
+ENV DATABASE_URL=${DATABASE_URL}
+ARG DEBUG
+ENV DEBUG=${DEBUG}
+
 # Install the Python project requirements
 RUN pip install -r /tmp/requirements.txt
 
 # database isn't available during build
 # run any other commands that do not need the database
 # such as:
-# RUN python manage.py collectstatic --noinput
+RUN python manage.py vendor_pull
+RUN python manage.py collectstatic --noinput
 
 # set the Django default project name
 ARG PROJ_NAME="cfehome"
