@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+# import os
+from decouple import config
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,9 +24,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-78+@1^!rxgg1&ykc6nld7aph^klqv%*mv3tet*qbhx$ia9!z@_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = os.environ.get("DEBUG", "Fasle").lower()=="true"
+DEBUG = config("DEBUG").lower()=="true"
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    ".railway.app"  # https://saass.up.railway.app/
+]
+
+print(DEBUG)
+if DEBUG:
+    ALLOWED_HOSTS += [
+        "127.0.0.1",
+        "localhost",
+
+    ]
 
 
 # Application definition
@@ -76,13 +88,23 @@ WSGI_APPLICATION = 'cfehome.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+DATABASE_URL = config("DATABASE_URL", cast=str)
+CONN_MAX_AGE = config("CONN_MAX_AGE", default=100, cast=int)
+if DATABASE_URL is not None:
+    import dj_database_url
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=CONN_MAX_AGE,
+            conn_health_checks=True,
+        )
+    }
 
 
 # Password validation
