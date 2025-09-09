@@ -5,7 +5,7 @@
 </head>
 <body>
     <div>
-        {% if request.is_authenticated %}
+        {% if request.user.is_authenticated %}
         You are a user
     
         {% else %}
