@@ -1,0 +1,14 @@
+{% extends 'allauth/layouts/base.html' %}
+
+{% block head_title %} {{ page_title }} {% endblock head_title %}
+
+
+{% block content %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    <input type="password" name="code" placeholder="Enter the code" />
+    <button type="submit">Submit</button>
+
+</form>
+{% endblock content %}

@@ -3,7 +3,7 @@ from django.core.management.base import BaseCommand
 from django.conf import settings
 
 
-STATUCFILES_VENDOR_DIR = settings.STATUCFILES_VENDOR_DIR
+STATICFILES_VENDOR_DIR = settings.STATICFILES_VENDOR_DIR
 VENDOR_STATICFILES = {
     "flowbite.min.css": "https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css",
     "flowbite.min.js": "https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js",
@@ -16,7 +16,7 @@ class Command(BaseCommand):
         self.stdout.write("Downloading vendor static files")
         completed_urls = []
         for name, url in VENDOR_STATICFILES.items():
-            output_path = STATUCFILES_VENDOR_DIR/name
+            output_path = STATICFILES_VENDOR_DIR/name
             dl_success = helpers.download_to_local(url, output_path)
             
             if dl_success:

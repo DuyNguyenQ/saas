@@ -1,0 +1,21 @@
+{% extends 'allauth/layouts/base.html' %}
+
+{% block head_title %} {{ page_title }} {{ block.super }} {% endblock head_title %}
+
+
+{% block content %}
+
+
+<h1 class="text-lg font-medium"> {{instance.username}} </h1>
+{% if perms.auth.views_user or is_me %}
+<div>
+    <p>{{instance.email}}</p>
+    <p>{{instance.first_name}} - {{instance.last_name}}</p>
+    <p>{{instance.last_login}} - {{is_me}}</p>
+</div>
+
+{% else %}
+<p>You are not allowed to see this</p>
+{% endif %}
+
+{% endblock content %}

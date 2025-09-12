@@ -17,19 +17,19 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Email
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = config("EMAIL_HOST", cast=str, default=None)
-# EMAIL_PORT = config("EMAIL_PORT", cast=str, default='587') # Recommended
-# EMAIL_HOST_USER = config("EMAIL_HOST_USER", cast=str, default=None)
-# EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str, default=None)
-# EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=True)  # Use EMAIL_PORT 587 for TLS
-# EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool, default=False)  # EUse MAIL_PORT 465 for SSL
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config("EMAIL_HOST", cast=str, default=None)
+EMAIL_PORT = config("EMAIL_PORT", cast=str, default='587') # Recommended
+EMAIL_HOST_USER = config("EMAIL_HOST_USER", cast=str, default=None)
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str, default=None)
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=True)  # Use EMAIL_PORT 587 for TLS
+EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool, default=False)  # EUse MAIL_PORT 465 for SSL
 
-# ADMIN_USER_NAME=config("ADMIN_USER_NAME", default="Admin user")
-# ADMIN_USER_EMAIL=config("ADMIN_USER_EMAIL", default="nguyenquocduy020218@gmail.com")
+ADMIN_USER_NAME=config("ADMIN_USER_NAME", default="Admin user")
+ADMIN_USER_EMAIL=config("ADMIN_USER_EMAIL", default="nguyenquocduy020218@gmail.com")
 
-# ADMINS=[(ADMIN_USER_NAME, ADMIN_USER_EMAIL)]
-# MANAGERS=ADMINS
+ADMINS=[(ADMIN_USER_NAME, ADMIN_USER_EMAIL)]
+MANAGERS=ADMINS
 
 
 # Quick-start development settings - unsuitable for production
@@ -46,6 +46,7 @@ ALLOWED_HOSTS = [
     ".railway.app",  # https://saass.up.railway.app/
     "127.0.0.1",
     "localhost",
+    '10.14.81.183',
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://saass.up.railway.app",  # https://saass.up.railway.app/
@@ -70,7 +71,17 @@ INSTALLED_APPS = [
 
     # apps
     'visits',
+    'profiles',
     'commando',
+    'slippers',
+
+    # third-party-apps
+    'allauth_ui',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
+    'widget_tweaks',
 
 ]
 
@@ -83,6 +94,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = 'cfehome.urls'
@@ -145,6 +157,21 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Django Allauth config
+LOGIN_REDIRECT_URL = "/"
+ACCOUNT_LOGIN_METHODS = ["username", "email"]
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_SIGNUP_FIELDS = ["email*", "username*", "password1*", "password2*"]
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "CFE" 
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -164,7 +191,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_BASE_DIR = BASE_DIR/"staticfiles"
 STATICFILES_BASE_DIR.mkdir(exist_ok=True, parents=True)
-STATUCFILES_VENDOR_DIR = STATICFILES_BASE_DIR/"vendors"
+STATICFILES_VENDOR_DIR = STATICFILES_BASE_DIR/"vendors"
 
 # source(s) for python manage.py collectstatic
 STATICFILES_DIRS = [
@@ -189,3 +216,22 @@ STORAGES = {
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    # 'google': {
+    #     # For each OAuth based provider, either add a ``SocialApp``
+    #     # (``socialaccount`` app) containing the required client
+    #     # credentials, or list them here:
+    #     'APP': {
+    #         'client_id': '123',
+    #         'secret': '456',
+    #         'key': ''
+    #     }
+    # }
+    'github':{
+        'VERIFIED_EMAIL': True
+    }
+}
+
+LOGIN_URL = "/accounts/login/"

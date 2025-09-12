@@ -1,0 +1,17 @@
+{% extends 'allauth/layouts/base.html' %}
+
+{% block head_title %} {{ page_title }} {{ block.super }} {% endblock head_title %}
+
+
+{% block content %}
+<h1 class="text-lg font-medium"> {{page_title}} </h1>
+<div>
+    {% for instance in obj_list %}
+        <li><a href="/profiles/{{instance.username}}">{{instance.username}}</a></li>
+    
+    {% endfor %}
+</div>
+
+
+
+{% endblock content %}
