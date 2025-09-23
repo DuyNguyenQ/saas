@@ -46,7 +46,8 @@ ALLOWED_HOSTS = [
     ".railway.app",  # https://saass.up.railway.app/
     "127.0.0.1",
     "localhost",
-    '10.14.81.183',
+    "10.14.81.183",
+    "18.139.117.186",
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://saass.up.railway.app",  # https://saass.up.railway.app/
@@ -71,9 +72,12 @@ INSTALLED_APPS = [
 
     # apps
     'visits',
+    'subscriptions',
     'profiles',
     'commando',
     'slippers',
+    'customers',
+    'helpers',
 
     # third-party-apps
     'allauth_ui',

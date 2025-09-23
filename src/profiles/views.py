@@ -25,6 +25,10 @@ def profile_detail_view(request, username=None, *args, **kwargs):
     profile_user_obj = get_object_or_404(User, username=username)
     user_groups = profile_user_obj.groups.all()
     print(user_groups)
+    # if user_groups.filter(name__icontains='basic').exists():
+        # return HttpResponse("Congrats")
+    print("subscription" ,profile_user_obj.has_perm("subscriptions.advanced"))
+    
     if request.user.id == profile_user_obj.id:
         is_me = True
     
