@@ -1,6 +1,17 @@
 from django.contrib import admin
-from .models import Subscriptions, UserSubscription
+from .models import Subscriptions, UserSubscription, SubscriptionPrice
 
 
-admin.site.register(Subscriptions)
+class SubscriptionPrice(admin.TabularInline):
+    model = SubscriptionPrice
+    readonly_fields = ["stripe_id"]
+    # can_delete = False
+    extra = 0
+
+class SubscriptionAdmin(admin.ModelAdmin):
+    inlines = [SubscriptionPrice]
+    list_display = ["name", "active"]
+    readonly_fields = ["stripe_id"]
+
+admin.site.register(Subscriptions, SubscriptionAdmin)
 admin.site.register(UserSubscription)

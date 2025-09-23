@@ -15,6 +15,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_URL = config("BASE_URL", cast=str, default="")
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -78,6 +79,7 @@ INSTALLED_APPS = [
     'slippers',
     'customers',
     'helpers',
+    "infor",
 
     # third-party-apps
     'allauth_ui',

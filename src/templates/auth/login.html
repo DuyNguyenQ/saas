@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block head_title %} Login {% endblock head_title %}
+{% block head_title %} Login {{super.block}} {% endblock head_title %}
 
 {% block content %}
 <form method="POST" action="/login/">

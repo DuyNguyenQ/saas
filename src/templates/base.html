@@ -4,14 +4,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block head_title %} {% endblock head_title %}</title>
     {% include "base/css.html" %}
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        main {
+            flex: 1 0 auto;
+        }
+        footer {
+            flex-shrink: 0;
+        }
+    </style>
 </head>
 
 <body>
     {% include "nav/navbar.html" %}
 
-    {% block content %}
-    {% endblock content %}
-
+    <main>
+        {% block content %}
+        {% endblock content %}
+    </main>
+    
     {% include "base/js.html" %}
-</body>
-</html>
+<body>
+
+<footer>
+    {% include "foot/footer.html" %}
+</footer>

@@ -16,18 +16,25 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import home_page_view, pw_protect_view
-from auth.views import login_view, logout_view, register_view
-
+from .views import home_page_view, pw_protect_view, export_information_excel
+# from auth.views import login_view, logout_view, register_view
+from checkouts.views import checkout_redirect_view, product_price_redirect_view, checkout_finalize_view
+from subscriptions.views import subscription_price_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_page_view, name="home"),
-    path('login/', login_view),
-    path('logout/', logout_view),
-    path('register/', register_view),
+    path('checkout/sub-price/<int:price_id>/', product_price_redirect_view, name="sub-price-checkout"),
+    path('checkout/start/', checkout_redirect_view, name="stripe-checkout-start"),
+    path('checkout/success/', checkout_finalize_view, name="stripe-checkout-success"),
+    # path('login/', login_view),
+    # path('logout/', logout_view),
+    # path('register/', register_view),
     path('accounts/', include('allauth.urls')),
+    path('export/', export_information_excel, name='export_information_excel'),
     path('protect/', pw_protect_view),
     path('profiles/', include('profiles.urls')),
+    path('pricing/', subscription_price_view, name="pricing"),
+    path('pricing/<str:interval>', subscription_price_view, name="pricing_interval"),
 
 ]
